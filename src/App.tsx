@@ -14,9 +14,9 @@ const winning_pattern = [
 ];
 
 function App() {
-  const [count, setCount] = useState(-1);
-  const [round, setRound] = useState(Array(9).fill(false));
-  const [cross, setCross] = useState(Array(9).fill(false));
+  const [count, setCount] = useState<number>(-1);
+  const [round, setRound] = useState<Array<boolean>>(Array(9).fill(false));
+  const [cross, setCross] = useState<Array<boolean>>(Array(9).fill(false));
   const [winner, setWinner] = useState<null | string>(null);
 
   useEffect(() => {
