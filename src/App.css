@@ -1,0 +1,67 @@
+body{
+  background-color: #14bdac;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  font-family: "Rubik", sans-serif;
+}
+
+tr{
+  flex-direction: row;
+  display: flex;
+}
+
+td{
+  padding: 5px;
+  height: 48px;
+  width: 48px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-family: "Rubik Bubbles", system-ui;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+}
+
+tr td:nth-child(1){
+  border-right: 6px solid #0da192;
+}
+
+tr td:nth-child(1) ,tr td:nth-child(2), tr td:nth-child(3){
+  border-bottom: 6px solid #0da192;
+}
+
+tr td:nth-child(3){
+  border-left: 6px solid #0da192;
+}
+ tbody tr:last-child td{
+  border-bottom: unset !important;
+ }
+
+.tic_wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  align-items: center;
+}
+
+button{
+  background-color: black;
+  color: white;
+  padding: 12px 15px;
+  width: max-content;
+  border-radius: 10px;
+  border: unset;
+  outline: none;
+  font-family: "Rubik", sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+h1{
+  position: absolute;
+  top: 40px;
+  font-size: 48px;
+}
