@@ -73,6 +73,7 @@ function App() {
   };
 
   const setBoard = (index: number, e: any) => {
+    if (e.target.innerText) return;
     const isCross = (count + 1) % 2 === 0;
     setCount((prev) => prev + 1);
     e.target.innerText = isCross ? "X" : "O";
