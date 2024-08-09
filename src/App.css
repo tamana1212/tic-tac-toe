@@ -65,3 +65,13 @@ h1{
   top: 40px;
   font-size: 48px;
 }
+
+
+@media (max-width: 768px) {
+  h1{
+    font-size: 28px;
+  }
+  button{
+    font-size: 14px;
+  }
+}
