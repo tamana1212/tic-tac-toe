@@ -13,49 +13,34 @@ const winning_pattern = [
   [2, 4, 6],
 ];
 
-function App() {
+const App = () => {
   const [count, setCount] = useState<number>(-1);
   const [round, setRound] = useState<Array<boolean>>(Array(9).fill(false));
   const [cross, setCross] = useState<Array<boolean>>(Array(9).fill(false));
-  const [winner, setWinner] = useState<null | string>(null);
+  const [winnerName, setWinnerName] = useState<string>("");
 
   useEffect(() => {
     if (count < 0) return;
     const isCross = count % 2 === 0;
-    let winner = false;
-    let winnerName = "";
+    const currentMove = isCross ? cross : round;
+    let isWinner = false;
     for (let i = 0; i < winning_pattern.length; i++) {
-      if (isCross) {
-        winner =
-          cross[winning_pattern[i][0]] &&
-          cross[winning_pattern[i][1]] &&
-          cross[winning_pattern[i][2]];
-        if (winner) {
-          winnerName = "Cross";
-          break;
-        }
-      } else {
-        winner =
-          round[winning_pattern[i][0]] &&
-          round[winning_pattern[i][1]] &&
-          round[winning_pattern[i][2]];
-        if (winner) {
-          winnerName = "Round";
-          break;
-        }
+      if (
+        currentMove[winning_pattern[i][0]] &&
+        currentMove[winning_pattern[i][1]] &&
+        currentMove[winning_pattern[i][2]]
+      ) {
+        isWinner = true;
+        setWinnerName(isCross ? "The Winner is Cross" : "The Winner is Round");
+        showConfetti();
+        break;
       }
     }
-    if (winner) {
-      setWinner("The winner is " + winnerName);
-      showConfetti();
-      return;
-    }
-
-    if (count === 8) {
-      setWinner("It is a draw");
+    if (count === 8 && !isWinner) {
+      setWinnerName("It's a draw");
     }
   }, [count]);
-
+  
   const showConfetti = () => {
     const endTime = Date.now() + 2 * 1000;
     const interval = setInterval(() => {
@@ -72,38 +57,39 @@ function App() {
     }, 100);
   };
 
-  const setBoard = (index: number, e: any) => {
+  const setBoard = (e: any, index: number) => {
     if (e.target.innerText) return;
     const isCross = (count + 1) % 2 === 0;
     setCount((prev) => prev + 1);
     e.target.innerText = isCross ? "X" : "O";
-    const array = isCross ? cross : round;
-    array[index] = true;
-    isCross ? setCross(array) : setRound(array);
+    const setCurrentMove = isCross ? setCross : setRound;
+    setCurrentMove((prev) =>
+      prev.map((item, i) => (i === index ? true : item))
+    );
   };
 
   const restartGame = () => {
-    setWinner(null);
     setCross(Array(9).fill(false));
     setRound(Array(9).fill(false));
     setCount(-1);
-    document.querySelectorAll("td").forEach((element) => {
-      element.innerText = "";
+    setWinnerName("");
+    document.querySelectorAll("td").forEach((item) => {
+      item.innerText = "";
     });
   };
 
   return (
     <div className="tic_wrapper">
-      {winner && <h1>{winner}!</h1>}
-      <table style={{ pointerEvents: winner ? "none" : "auto" }}>
+      {winnerName && <h1>{winnerName}!</h1>}
+      <table>
         <tbody>
           {Array.from({ length: 3 }, (_, row) => (
             <tr key={row}>
               {Array.from({ length: 3 }, (_, col) => (
                 <td
-                  key={row * 3 + col}
+                  key={col}
                   onClick={(e) => {
-                    setBoard(row * 3 + col, e);
+                    setBoard(e, row * 3 + col);
                   }}
                 ></td>
               ))}
@@ -114,6 +100,6 @@ function App() {
       <button onClick={restartGame}>Restart Game</button>
     </div>
   );
-}
+};
 
 export default App;
