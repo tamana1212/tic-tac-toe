@@ -25,11 +25,7 @@ const App = () => {
     const currentMove = isCross ? cross : round;
     let isWinner = false;
     for (let i = 0; i < winning_pattern.length; i++) {
-      if (
-        currentMove[winning_pattern[i][0]] &&
-        currentMove[winning_pattern[i][1]] &&
-        currentMove[winning_pattern[i][2]]
-      ) {
+      if (winning_pattern[i].every((index) => currentMove[index])) {
         isWinner = true;
         setWinnerName(isCross ? "The Winner is Cross" : "The Winner is Round");
         showConfetti();
@@ -58,7 +54,7 @@ const App = () => {
   };
 
   const setBoard = (e: any, index: number) => {
-    if (e.target.innerText) return;
+    if (e.target.innerText || winnerName) return;
     const isCross = (count + 1) % 2 === 0;
     setCount((prev) => prev + 1);
     e.target.innerText = isCross ? "X" : "O";
